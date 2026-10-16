@@ -4,9 +4,9 @@
 
 ## Introduction
 
-你需要借助 AI Coding Agent，在 6 到 8 小时内从零实现 TaskForge：一个多租户的批量数据处理平台。用户上传 CSV 文件，后端在后台逐条处理每一行，用户在 Web 页面查看处理进度和结果。
+你需要借助 AI Coding Agent，用 6 到 8 小时的开发时间实现 TaskForge：一个多租户的批量数据处理平台。用户上传 CSV 文件，后端在后台逐条处理每一行，用户在 Web 页面查看处理进度和结果。
 
-这道 Take-Home Assignment 评估你能否借助 AI 独立交付一个有业务逻辑的 Full-Stack Engineering 项目。你可以用任意 AI 工具和模型生成全部代码，但要对最终交付的代码负责，规则见 [AI usage policy](#ai-usage-policy)。
+这道 Take-Home Assignment 面向大四本科生和即将毕业的计算机相关专业硕士研究生，主要考察 AI Coding Agent 辅助下的全栈工程交付能力：能否借助 AI 独立交付一个有业务逻辑的 Full-Stack Engineering 项目。你可以用任意 AI 工具和模型生成全部代码，但要对最终交付的代码负责，规则见 [AI usage policy](#ai-usage-policy)。
 
 > We evaluate engineering outcomes, not typing speed.
 
@@ -18,13 +18,23 @@
 |------|------|
 | 挑战名称 | TaskForge |
 | 项目类型 | Multi-Tenant Async Job Processing Platform |
-| 目标岗位 | Full-Stack Software Engineer |
+| 目标岗位 | Full-Stack Software Engineer（校招） |
+| 目标候选人 | 大四本科生、即将毕业的计算机相关专业硕士研究生 |
 | 建议难度 | Entry level |
-| 预计时间 | 6 到 8 小时（8 小时为建议上限） |
+| 建议开发时间 | 6 到 8 小时（8 小时为建议上限） |
+| 提交窗口 | 收到题目后 7 天 |
 | 开发模式 | AI-Assisted Development |
 | 技术栈 | 前端 React + TypeScript；后端 Node.js + TypeScript；数据库 PostgreSQL 或 SQLite |
 | 需求分级 | 必做 + 加分项 |
 | 部署要求 | 本地运行 |
+
+## 候选人范围与公平性
+
+- 不要求正式工作经验。
+- 本科生和研究生使用同一套岗位能力评价标准。
+- 可以从零开发，也可以基于 Vite、NestJS CLI 等脚手架或公开的基础项目模板开发，并在 README 中写明来源。可以使用开源库。
+- 不强制使用 Docker、云部署、Redis 或 Kubernetes。
+- 不需要提交完整的 AI 对话记录。
 
 ## Background
 
@@ -76,7 +86,7 @@
 必须支持：
 
 1. 用户使用 Email 和密码登录。
-2. 用户退出登录。
+2. 用户退出登录。退出时清除客户端保存的登录凭证（token 或 Cookie），页面回到登录页；使用服务端 Session 时，服务端同时使该 Session 失效。退出后在同一浏览器中访问受保护页面会回到登录页，调用受保护 API 返回 `401`。
 3. 维持登录状态：刷新页面后仍保持登录，直到用户退出或凭证过期。
 4. 服务端验证每个受保护 API 请求的身份，未认证的请求返回 `401`。
 
@@ -134,6 +144,8 @@ id,text
 | 3 | `text` 包含 `[FAIL]`（区分大小写） | FAILED |
 | 4 | 其他内容 | 成功，输出 Trim + Uppercase 后的文本 |
 
+Trim 指去除首尾空白，空白的范围与 JavaScript 的 `String.prototype.trim()` 相同。长度按 Trim 后的 Unicode 字符（code point）计数，不按字节或 UTF-16 编码单元计数：恰好 200 个字符的 `text` 通过规则 2，201 个字符为 FAILED。
+
 示例：
 
 | Input | Output |
@@ -183,7 +195,7 @@ FAILED
 | `PARTIAL_FAILED` | 至少一条记录成功，且至少一条记录失败 |
 | `FAILED` | 没有任何成功记录，所有记录均处理失败 |
 
-`COMPLETED`、`PARTIAL_FAILED` 和 `FAILED` 是终态。只有 Job 的所有记录都处理完毕后，系统才根据记录结果计算终态。
+`COMPLETED`、`PARTIAL_FAILED` 和 `FAILED` 是终态，表示本轮执行结束。只有本轮的所有记录都处理完毕后，系统才根据全部记录的结果计算终态。实现了 E1 时，`PARTIAL_FAILED` 或 `FAILED` 的 Job 可以因重试重新进入 `QUEUED`，开始新一轮执行。
 
 #### C2 后台处理（必做）
 
@@ -219,7 +231,7 @@ FAILED
 | Failed Records | 失败记录数 |
 | Created At | 创建时间 |
 | Started At | 开始执行时间 |
-| Finished At | 进入终态的时间 |
+| Finished At | 最近一轮执行进入终态的时间 |
 
 任意时刻必须满足 `Successful Records + Failed Records ≤ Total Records`。Job 处于终态时，两者之和等于 `Total Records`。
 
@@ -362,7 +374,7 @@ Job 处于 `QUEUED` 或 `RUNNING` 时，页面必须自动更新，用 Polling �
 |------|------|
 | Frontend | React + TypeScript |
 | Backend | Node.js + TypeScript |
-| Framework | Express / NestJS / Fastify |
+| Framework | 不限，例如 Express、NestJS、Fastify |
 | Database | PostgreSQL / SQLite |
 | ORM | 不限 |
 | Job Queue | 不限，基于数据库的 Worker 即可 |
@@ -415,6 +427,7 @@ Job 处于 `QUEUED` 或 `RUNNING` 时，页面必须自动更新，用 Polling �
 | T06 | 重启 | 在有已完成 Job 时重启后端 | 已完成 Job 的状态、统计和记录结果完整保留 |
 | T07 | 篡改参数 | 在请求体、Query 或 Header 中加入其他租户的 `tenant_id`，或修改 Job ID | 无法读取、创建或操作其他租户的数据 |
 | T08 | 非法文件 | 上传空文件，或缺少 `text` 表头的 CSV | 返回 `400` 和明确的错误信息，不创建 Job |
+| T09 | 退出登录 | 登录后退出，再在同一浏览器中打开 Job 列表页并调用受保护 API | 页面回到登录页，API 返回 `401` |
 
 ### 加分场景
 
@@ -463,7 +476,7 @@ taskforge/
 - 运行测试的方式
 - 完成情况：逐项列出必做项和加分项，标明已完成、部分完成或未做
 - 已知问题，以及重启时未完成的 Job 会怎样（未实现 D2 时）
-- 使用的模板或脚手架（如果有）
+- 使用的脚手架或项目模板及其来源（如果有）
 
 #### 3. docs/design.md
 
@@ -480,10 +493,10 @@ taskforge/
 
 - 使用了哪些 AI 工具
 - 你如何拆分工作，哪些部分交给 AI，哪些部分自己写或自己决定
-- 至少 2 个具体案例：AI 的输出有错误或不完整，你如何发现，又如何修复
+- 至少 2 个具体的 AI 辅助工程实践案例，例如纠正 AI 生成的代码、做架构决策、改进 Prompt、用测试验证 AI 的输出、处理边界问题
 - 如果再给你 2 小时，你接下来会做什么
 
-案例要具体到哪段代码、什么现象、怎么验证的。不需要提交完整对话记录；不得提交包含个人隐私或 Secret 的日志。
+每个案例写清楚涉及哪段代码或哪个决策、你做了什么、怎么验证 AI 生成的结果。重点是你如何验证和控制 AI 生成的代码，案例中 AI 出错的次数不影响评分。不需要提交完整对话记录；不得提交包含个人隐私或 Secret 的日志。
 
 #### 5. Automated tests
 
@@ -491,9 +504,10 @@ taskforge/
 
 ## Time expectations
 
-- 预计时间为 6 到 8 小时。8 小时为建议上限，不提供延期。
+- 建议实际开发时间为 6 到 8 小时，8 小时为建议上限。
+- 提交窗口为收到题目后 7 天，开发时间在窗口内自行安排。
 - 先保证必做项能运行、能验证，再做加分项。一个完整可运行的必做版本，比功能更多但跑不起来的版本得分更高。
-- 到达时间上限仍未完成时，提交当前版本，并在 README 中如实列出完成情况和已知问题。如实的完成清单计入 Documentation & Communication 维度；标为已完成但实际不可用的功能会扣分。
+- 8 小时内没有完成所有功能也可以提交，但必须在 README 中说明完成情况和已知问题。完成清单是否如实计入 Documentation & Communication 维度。
 
 ## Evaluation criteria
 
@@ -501,23 +515,31 @@ taskforge/
 
 | 维度 | 分值 | 评估内容 |
 |------|------|----------|
-| Core Functionality | 35 | 必做项是否完整实现，必做场景 T01 到 T08 是否通过 |
+| Core Functionality | 35 | 必做项是否完整实现，必做场景 T01 到 T09 是否通过 |
 | Code Quality & Runnability | 20 | 能否按 README 从零启动，代码结构是否清楚，测试能否运行并覆盖核心逻辑 |
 | Security & Edge Cases | 15 | 租户隔离、Authentication、输入校验、边界情况处理 |
-| AI-Assisted Development & Debugging | 15 | 是否有效使用 AI，能否发现并修复 AI 的错误，`docs/ai-development.md` 中的案例是否具体 |
+| AI-Assisted Development & Debugging | 15 | 如何验证和控制 AI 生成的代码，遇到问题时如何排查，`docs/ai-development.md` 中的案例是否具体 |
 | Documentation & Communication | 10 | README 和 `docs/design.md` 是否清楚，完成情况是否如实 |
 | Bonus | 5 | 加分项按本 README 的定义实现并能验证，加分场景 B01 到 B05 是否通过 |
 
-- 加分项最多 5 分，单独计算。必做项扣掉的分数不能用加分项补回。
-- 能跨租户读取或操作数据的漏洞属于严重安全问题，会显著影响评估结果，加分项无法弥补。
+- 加分项最多 5 分。高质量的进阶实现（例如并发控制的正确性和对应测试）也会作为 Code Quality & Runnability、Security & Edge Cases 等相应维度的评分依据。
+- 必做项扣掉的分数不能用加分项补回。
+- 同一个问题只在最相关的一个维度扣分。
+- 能跨租户读取或操作数据的漏洞属于重大安全问题，会显著影响整体评估结果，加分项无法弥补。
+- 评分关注实际交付质量。代码量、Commit 数量和 AI Token 消耗不计分。
+- 是否合格综合所有维度判断，不只看是否完成了全部功能。
 
 ## 后续面试
 
-通过初筛的候选人会参加约 30 分钟的代码讲解，讲解对象是你自己提交的项目。内容包括：
+通过初筛的候选人参加两部分面试，都基于你自己提交的项目。
+
+约 30 分钟的项目代码讲解，内容包括：
 
 - Job 终态是怎样计算的，代码在哪里
 - 租户隔离在后端是怎样实现的，为什么修改 Job ID 拿不到其他租户的数据
-- `docs/ai-development.md` 中的一个案例：AI 错在哪里，你怎样发现并修复
+- `docs/ai-development.md` 中的一个案例：你如何验证和控制 AI 生成的代码
+
+约 15 分钟的现场小型需求变更：在你现有代码的基础上完成一个小改动，不引入复杂的新技术栈。现场可以继续使用 AI Coding Agent。这部分重点观察代码理解、AI 使用、修改后的验证和 Debug 能力。
 
 面试时间和方式由招聘方另行通知。
 
@@ -586,11 +608,11 @@ taskforge/
 
 ### 加分项没做，会影响通过吗？
 
-加分项最多占 5 分，没做加分项最多可得 95 分。
+加分项单独占 5 分，大部分分数来自必做项的质量。是否通过综合所有维度判断。
 
 ### 可以用模板或脚手架吗？
 
-可以，例如 Vite 或 NestJS CLI 生成的项目骨架。在 README 中写明你用了哪个模板；业务逻辑必须是你为这道题实现的。
+可以，例如 Vite 或 NestJS CLI 生成的项目骨架，或公开的基础项目模板。在 README 中写明来源；业务逻辑必须是你为这道题实现的。
 
 ### 需求中没有覆盖到的细节怎么处理？
 
