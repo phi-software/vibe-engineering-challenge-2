@@ -24,7 +24,7 @@
 | 建议开发时间 | 6 到 8 小时（8 小时为建议上限） |
 | 提交窗口 | 收到题目后 7 天 |
 | 开发模式 | AI-Assisted Development |
-| 技术栈 | 前端 React + TypeScript；后端 Node.js + TypeScript；数据库 PostgreSQL 或 SQLite |
+| 技术栈 | 前端 React + TypeScript；后端 Node.js + TypeScript, Java, Python, go 等任选其一；数据库 PostgreSQL 或 SQLite |
 | 需求分级 | 必做 + 加分项 |
 | 部署要求 | 本地运行 |
 
@@ -32,7 +32,7 @@
 
 - 不要求正式工作经验。
 - 本科生和研究生使用同一套岗位能力评价标准。
-- 可以从零开发，也可以基于 Vite、NestJS CLI 等脚手架或公开的基础项目模板开发，并在 README 中写明来源。可以使用开源库。
+- 在 README 中写明使用的技术展。可以使用开源库。
 - 不强制使用 Docker、云部署、Redis 或 Kubernetes。
 - 不需要提交完整的 AI 对话记录。
 
@@ -49,7 +49,7 @@
 你需要交付一个可以实际运行、测试和验证的 MVP，包括：
 
 - React + TypeScript Web Dashboard
-- Node.js + TypeScript 后端 API
+- 后端 API 代码
 - 后台 Worker，在创建请求返回后处理 Job
 - 持久化存储（PostgreSQL 或 SQLite）
 - 覆盖核心逻辑的自动化测试
@@ -373,8 +373,8 @@ Job 处于 `QUEUED` 或 `RUNNING` 时，页面必须自动更新，用 Polling �
 | 类别 | 要求 |
 |------|------|
 | Frontend | React + TypeScript |
-| Backend | Node.js + TypeScript |
-| Framework | 不限，例如 Express、NestJS、Fastify |
+| Backend | 不限 |
+| Framework | 不限，例如 Express、NestJS、Fastify, springboot 等 |
 | Database | PostgreSQL / SQLite |
 | ORM | 不限 |
 | Job Queue | 不限，基于数据库的 Worker 即可 |
@@ -595,10 +595,6 @@ taskforge/
 ### 加分项没做，会影响通过吗？
 
 加分项单独占 5 分，大部分分数来自必做项的质量。是否通过综合所有维度判断。
-
-### 可以用模板或脚手架吗？
-
-可以，例如 Vite 或 NestJS CLI 生成的项目骨架，或公开的基础项目模板。在 README 中写明来源；业务逻辑必须是你为这道题实现的。
 
 ### 需求中没有覆盖到的细节怎么处理？
 
