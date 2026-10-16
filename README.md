@@ -21,8 +21,6 @@
 | 挑战名称 | TaskForge |
 | 项目类型 | Multi-Tenant Async Job Processing Platform |
 | 目标岗位 | Full-Stack Software Engineer（校招） |
-| 目标候选人 | 大四本科生、即将毕业的计算机相关专业硕士研究生 |
-| 建议难度 | Entry level |
 | 建议开发时间 | 6～8 小时（8 小时为建议上限） |
 | 提交窗口 | 收到题目后 7 天 |
 | 开发模式 | AI-Assisted Development |
